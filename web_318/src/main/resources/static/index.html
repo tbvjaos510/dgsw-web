@@ -2,9 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <script src="//code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-$END$
+    <section>
+        <h1>Call with AJAX</h1>
+        <div>
+            <input type="text" id="name" placeholder="이름 입력">
+            <button onclick="send()">확인</button>
+            <div id="display-response">결과</div>
+        </div>
+    </section>
+    <script>
+        async function send2() {
+            let name = $("#name").val().trim();
+            if (!name || name === ""){
+                $("#display-response").html('입력하세요');
+                return;
+            }
+            try {
+                let response = await $.get("/greeting/" + name);
+                $("#display-response").html(JSON.stringify(response));
+            } catch (e) {
+                $("#display-response").html(JSON.stringify(err));
+            } finally {
+                $('#display-response').html(
+                    $('#display-response').html() + "<br>이 부분은 항상 실행됨"
+                )
+            }
+        }
+        function send() {
+            let name = $("#name").val().trim();
+            if (!name || name === ""){
+                $("#display-response").html('입력하세요');
+                return;
+            }
+            $.get("/greeting/" + name)
+                .done(function (response) {
+                    $("#display-response").html(JSON.stringify(response));
+                })
+                .fail(function (err) {
+                    $("#display-response").html(JSON.stringify(err));
+                })
+                .always(function () {
+                    $('#display-response').html(
+                        $('#display-response').html() + "<br>이 부분은 항상 실행됨"
+                    )
+                });
+        }
+    </script>
 </body>
 </html>

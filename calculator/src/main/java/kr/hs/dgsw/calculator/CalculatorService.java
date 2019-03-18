@@ -1,4 +1,5 @@
 package kr.hs.dgsw.calculator;
 
-public class CalculatorService {
+public interface CalculatorService {
+    String calculate(String num1, String num2, String Operator);
 }

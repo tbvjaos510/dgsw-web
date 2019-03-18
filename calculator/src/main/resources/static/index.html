@@ -2,9 +2,92 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <script
+            src="http://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            crossorigin="anonymous"></script>
+    <script>
+        function addNumber(number) {
+            const value = $("#result").text();
+            if (value == 0 && number == 0)
+                return;
+            if (value == 0)
+                $("#result").text(number);
+            else
+                $("#result").text(value + number);
+        }
+
+        function deleteLast() {
+            const value = $("#result").text();
+            $("#result").text(value.slice(0, -1));
+        }
+
+        function addOperator(operator) {
+            if ($("#result").text().length == 0) {
+                return;
+            }
+            addNumber(operator);
+        }
+
+        async function calculate() {
+            const value = $("#result").text();
+            const numbers = value.split(/[\+\-\/%\*]/);
+            const operator = value.match(/[\+\-\/%\*]/)[0];
+            if (numbers.length < 2 && !operator)
+                return;
+            const result = await $.get(`/calculate?num1=${numbers[0]}&num2=${numbers[1]}&oper=${encodeURIComponent(operator)}`)
+            console.log(result);
+            $("#result").text(result);
+        }
+    </script>
 </head>
 <body>
-$END$
+<div class="container">
+    <div class="calc-body">
+        <div class="calc-screen">
+            <div class="calc-typed"><span id="result">0</span><span class="blink-me">_</span></div>
+        </div>
+        <div class="calc-button-row">
+            <div class="button c" id="cancel-btn" onclick="deleteLast()">C</div>
+            <div class="button l" id="unknown-btn">≠</div>
+            <div class="button l" id="mod-btn" onclick="addOperator('%')">%</div>
+            <div class="button l" onclick="addOperator('/')">/</div>
+        </div>
+        <div class="calc-button-row">
+            <div class="button" onclick="addNumber('7')">7</div>
+            <div class="button" onclick="addNumber('8')">8</div>
+            <div class="button" onclick="addNumber('9')">9</div>
+            <div class="button l" onclick="addOperator('*')">x</div>
+        </div>
+        <div class="calc-button-row">
+            <div class="button" onclick="addNumber('4')">4</div>
+            <div class="button" onclick="addNumber('5')">5</div>
+            <div class="button" onclick="addNumber('6')">6</div>
+            <div class="button l" onclick="addOperator('-')">−</div>
+        </div>
+        <div class="calc-button-row">
+            <div class="button" onclick="addNumber('1')">1</div>
+            <div class="button" onclick="addNumber('2')">2</div>
+            <div class="button" onclick="addNumber('3')">3</div>
+            <div class="button l" onclick="addOperator('+')">+</div>
+        </div>
+        <div class="calc-button-row">
+            <div class="button">&nbsp;</div>
+            <div class="button" onclick="addNumber('0')">0</div>
+            <div class="button">
+                &nbsp;</div>
+            <div class="button l" onclick="calculate()">=</div>
+        </div>
+    </div>
+</div>
+<script>
+    function blinker() {
+        $('.blink-me').fadeOut(200);
+        $('.blink-me').fadeIn(200);
+    }
+    setInterval(blinker, 500);
+</script>
 </body>
 </html>
