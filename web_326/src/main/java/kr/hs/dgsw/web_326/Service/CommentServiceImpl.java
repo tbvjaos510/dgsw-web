@@ -42,8 +42,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Comment addComment(Comment comment) {
-        return commentRepository.save(comment);
+    public CommentUsernameProtocol addComment(Comment comment) {
+        Comment result =  commentRepository.save(comment);
+        return this.userRepository.findById(result.getUserId())
+                .map(c -> new CommentUsernameProtocol(comment, c.getUsername()))
+                .orElse(null);
     }
 
     @Override

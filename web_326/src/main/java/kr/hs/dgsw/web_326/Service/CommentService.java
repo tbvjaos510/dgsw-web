@@ -9,7 +9,7 @@ public interface CommentService {
 
     List<CommentUsernameProtocol> listAllComments();
 
-    Comment addComment(Comment comment);
+    CommentUsernameProtocol addComment(Comment comment);
 
     boolean removeComment(Long commentId);
 

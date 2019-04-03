@@ -1,5 +1,6 @@
 package kr.hs.dgsw.web_326.Domain;
 
+import kr.hs.dgsw.web_326.Protocol.AttachmentProtocol;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,6 +27,9 @@ public class User {
 
     @UpdateTimestamp
     private LocalDateTime modified;
+
+    private String storedPath;
+    private String originalName;
 
 
     public User(String username, String email) {

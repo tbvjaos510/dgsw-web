@@ -1,12 +1,13 @@
 package kr.hs.dgsw.web_326.Service;
 
 import kr.hs.dgsw.web_326.Domain.User;
+import kr.hs.dgsw.web_326.Protocol.AttachmentProtocol;
 import kr.hs.dgsw.web_326.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
@@ -47,5 +48,23 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> listUser() {
         return this.userRepository.findAll();
+    }
+
+    @Override
+    public User addProfile(Long userId, AttachmentProtocol attach) {
+        return this.userRepository.findById(userId)
+                .map(u -> {
+                    String pastPath = u.getStoredPath();
+                    if (pastPath != null)
+                    {
+                        File file = new File(u.getStoredPath());
+
+                        file.deleteOnExit();
+                    }
+                    u.setOriginalName(attach.getOriginalName());
+                    u.setStoredPath(attach.getStoredPath());
+                    return this.userRepository.save(u);
+                })
+                .orElse(null);
     }
 }

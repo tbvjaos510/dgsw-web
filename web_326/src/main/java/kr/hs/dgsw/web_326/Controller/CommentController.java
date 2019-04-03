@@ -28,7 +28,7 @@ public class CommentController {
     }
 
     @PostMapping("/addComment")
-    public Comment addComment(@RequestBody Comment comment) {
+    public CommentUsernameProtocol addComment(@RequestBody Comment comment) {
         return this.commentService.addComment(comment);
     }
 
