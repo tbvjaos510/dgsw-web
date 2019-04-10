@@ -142,7 +142,11 @@
                 <p class="text-xl leading-tight" id="userInfo">로그인 해주세요</p>
                 <p class="text-sm leading-tight text-grey-dark" id="emailInfo"></p>
                 <p class="text-sm leading-tight text-grey-dark" id="joinInfo"></p>
+
             </div>
+            <button id="login-btn" class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button" onclick="openLoginDialog()">
+                로그인
+            </button>
         </div>
     </aside>
     <!--<div>-->
@@ -234,6 +238,7 @@
                         $("#emailInfo").text(user.email);
                         $("#profileInfo").attr("src", "/userAttachment/" + user.id);
                         $("#joinInfo").text(user.joined);
+                        $("#login-btn").hide();
                         currentId = user.id;
 
                     } else {
