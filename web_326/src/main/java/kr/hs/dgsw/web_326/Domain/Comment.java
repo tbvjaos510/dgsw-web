@@ -32,12 +32,20 @@ public class Comment {
         this.content = c.getContent();
         this.created = c.getCreated();
         this.modified = c.getModified();
+        this.storedPath = c.getStoredPath();
+        this.originalName = c.getOriginalName();
     }
 
-    public Comment(Long userId, String content) {
+    public Comment(Long userId, String content, String storedPath, String originalName) {
         this.userId = userId;
         this.content = content;
+        this.storedPath = storedPath;
+        this.originalName = originalName;
     }
+
+
+    private String originalName;
+    private String storedPath;
 
     public Comment() {
 

@@ -4,13 +4,14 @@ import kr.hs.dgsw.web_326.Domain.User;
 import kr.hs.dgsw.web_326.Protocol.AttachmentProtocol;
 import kr.hs.dgsw.web_326.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.util.List;
 
-
 @Service
+@Repository
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -64,6 +65,22 @@ public class UserServiceImpl implements UserService {
                     u.setOriginalName(attach.getOriginalName());
                     u.setStoredPath(attach.getStoredPath());
                     return this.userRepository.save(u);
+                })
+                .orElse(null);
+    }
+
+    @Override
+    public User getUser(Long id) {
+        return this.userRepository.findById(id)
+                .orElse(null);
+    }
+
+    public User login(User user) {
+        return this.userRepository.findByUsername(user.getUsername())
+                .map(u -> {
+                    if (u.getPassword().equals(user.getPassword()))
+                        return u;
+                    else return null;
                 })
                 .orElse(null);
     }

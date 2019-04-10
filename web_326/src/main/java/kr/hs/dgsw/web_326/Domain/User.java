@@ -20,6 +20,9 @@ public class User {
     private Long id;
 
     private String username;
+
+    private String password;
+
     private String email;
 
     @CreationTimestamp
@@ -32,9 +35,12 @@ public class User {
     private String originalName;
 
 
-    public User(String username, String email) {
+    public User(String username, String email,String password , String storedPath, String originalName) {
+        this.password = password;
         this.username = username;
         this.email = email;
+        this.storedPath = storedPath;
+        this.originalName = originalName;
     }
 
 }

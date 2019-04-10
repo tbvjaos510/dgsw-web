@@ -30,4 +30,4 @@ HELP.md
 
 *.db
 
-upload/
+upload/*

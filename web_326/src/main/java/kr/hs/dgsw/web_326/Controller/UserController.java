@@ -38,4 +38,9 @@ public class UserController {
     public List<User> listUser() {
         return this.userService.listUser();
     }
+
+    @PostMapping("/login")
+    public User login(@RequestBody User user) {
+        return this.userService.login(user);
+    }
 }
