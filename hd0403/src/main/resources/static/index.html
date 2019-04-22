@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.0.min.js"
+            integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+<div id="login-form">
+    <div style="display:flex">
+        <div style="width: 100px">ID</div>
+        <input type="text" id="input-id">
+        <div style="width: 100px" id="show-id"></div>
+    </div>
+    <div style="display:flex">
+        <div style="width: 100px">PASSWORD</div>
+        <input type="password" id="input-password">
+        <div style="width: 100px" id="show-password"></div>
+    </div>
+</div>
+<div id="register-form">
+    <div style="display:flex">
+        <div style="width:100px">Email</div>
+        <input type="email" id="input-email">
+        <div style="width: 100px" id="show-email"></div>
+    </div>
+    <div style="display:flex">
+        <div style="width:100px">Username</div>
+        <input type="text" id="input-username">
+        <div style="width: 100px" id="show-username"></div>
+    </div>
+</div>
+<div style="display:flex" id="login-btns">
+    <button onclick="showLogin()">로그인</button>
+    <button onclick="showRegister()">회원가입</button>
+</div>
+<div id="change-btns">
+    <button onclick="showChange()">수정</button>
+    <button onclick="remove()">삭제</button>
+</div>
+<script>
+    const userKeys = ["id","password", "email", "username"];
+    let userStatus = 0;
+    const defaultURL = "http://localhost:8080";
+
+    function showResult() {
+        $("[id^=show-]").show();
+        $("[id^=input-]").hide();
+    }
+    function hideResult() {
+        $("[id^=show-]").hide();
+        $("[id^=input-]").show();
+    }
+    function getInputData() {
+        const result = {};
+        userKeys.forEach((key) => {
+            result[key] = $("#input-" + key).val();
+        })
+        return result;
+    }
+    function login() {
+        $.ajax({
+            type: "POST",
+            url: defaultURL + "/login",
+            contentType:"application/json;",
+            responseType: "application/json;",
+            data: JSON.stringify(getInputData()),
+            success: (data) => {
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        console.log(key, data[key]);
+                        $(`#show-${key}`).text(data[key]);
+                    })
+                    showStatus();
+                } else {
+                    alert("아이디 혹은 비밀번호가 틀렸습니다.");
+                }
+            }
+        })
+    }
+    function register() {
+        $.ajax({
+            type: "POST",
+            url: defaultURL + "/register",
+            contentType:"application/json;",
+            responseType: "application/json;",
+            data: JSON.stringify(getInputData()),
+            success: (data) => {
+                if (data) {
+                    alert("회원가입 성공.");
+                    showLogin();
+                } else {
+                    alert("회원가입 실패.");
+                }
+            }
+        })
+    }
+    function update() {
+        const userData = getInputData();
+        $.ajax({
+            type: "PUT",
+            url: defaultURL + "/update/" + userData.id,
+            contentType:"application/json;",
+            responseType: "application/json;",
+            data: JSON.stringify(userData),
+            success: (data) => {
+                if (data) {
+                    alert("수정 성공");
+                    Object.keys(data).forEach(key => {
+                        console.log(key, data[key]);
+                        $(`#show-${key}`).text(data[key]);
+                    })
+                    showStatus();
+                } else {
+                    alert("수정 실패.");
+                }
+            }
+        })
+    }
+    function remove() {
+        const userId = $("#show-id").text();
+        $.ajax({
+            type: "DELETE",
+            url: defaultURL + "/remove/" + userId,
+            success: (data) => {
+                if (data) {
+                    alert("삭제 성공");
+                    showRegister();
+                } else {
+                    alert("수정 실패");
+                }
+            }
+        })
+    }
+    function showRegister() {
+        if (userStatus === 2)
+            return register();
+        userStatus = 2;
+        hideResult();
+        $("#register-form").show();
+        $("#login-form").show();
+        $("#change-btns").hide();
+        $("#login-btns").show();
+    }
+    function showLogin() {
+        if (userStatus === 1) {
+            return login();
+        }
+        userStatus = 1;
+        hideResult();
+        $("#register-form").hide();
+        $("#login-form").show();
+        $("#change-btns").hide();
+        $("#login-btns").show();
+
+    }
+    function showChange() {
+        if (userStatus === 4) {
+            return update();
+        }
+        userStatus = 4;
+        userKeys.forEach((key) => {
+            $("#input-" + key).val($("#show-" + key).text());
+        });
+        hideResult();
+        $("#input-id").hide();
+        $("#show-id").show();
+    }
+
+    function showStatus(){
+        userStatus = 3;
+        $("#login-btns").hide();
+        $("#register-form").show();
+        $("#login-form").show();
+        $("#change-btns").show();
+        showResult();
+    }
+    showLogin();
+</script>
+</body>
+</html>

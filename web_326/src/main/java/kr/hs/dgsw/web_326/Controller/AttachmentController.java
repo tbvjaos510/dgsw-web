@@ -6,10 +6,12 @@ import kr.hs.dgsw.web_326.Protocol.AttachmentProtocol;
 import kr.hs.dgsw.web_326.Service.CommentService;
 import kr.hs.dgsw.web_326.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -21,11 +23,15 @@ import java.util.UUID;
 @RestController
 public class AttachmentController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    private final CommentService commentService;
 
     @Autowired
-    private CommentService commentService;
+    public AttachmentController(UserService userService, CommentService commentService) {
+        this.userService = userService;
+        this.commentService = commentService;
+    }
 
     @PostMapping("/attachment")
     public AttachmentProtocol upload(@RequestPart MultipartFile uploadFile) {
@@ -64,7 +70,7 @@ public class AttachmentController {
             this.download(filePath, rq, resp);
     }
 
-    public void download(String filePath, HttpServletRequest rq, HttpServletResponse resp) {
+    private void download(String filePath, HttpServletRequest rq, HttpServletResponse resp) {
         if (filePath == null) return;
         try {
                 File file = new File(filePath);

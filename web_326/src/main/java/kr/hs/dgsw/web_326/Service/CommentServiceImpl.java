@@ -6,6 +6,7 @@ import kr.hs.dgsw.web_326.Protocol.CommentUsernameProtocol;
 import kr.hs.dgsw.web_326.Repository.CommentRepository;
 import kr.hs.dgsw.web_326.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,14 @@ import java.util.Optional;
 @Repository
 public class CommentServiceImpl implements CommentService {
 
+    private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+
     @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private UserRepository userRepository;
+    public CommentServiceImpl(UserRepository userRepository, CommentRepository commentRepository) {
+        this.userRepository = userRepository;
+        this.commentRepository = commentRepository;
+    }
 
     @PostConstruct
     private void init() {

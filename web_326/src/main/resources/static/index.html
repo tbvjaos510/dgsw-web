@@ -96,7 +96,7 @@
     <section>
 
         <form class="w-full max-w-sm" id="upload-comment" >
-            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" onclick="openUploadDialog()">
+            <button class="bg-blue hover:bg-blue-dark text-white font-bold py-2 px-4 rounded" onclick="openUploadDialog(event)">
                 새 글 추가
             </button>
             <div id="upload-container" style="display: none">
@@ -197,10 +197,11 @@
        let isLogin = false;
        let currentId = 0;
         function openLoginDialog(e) {
+            if (e) e.preventDefault();
+
             if (isLogin) {
                 return true;
             }
-            if (e) e.preventDefault();
             $("#container").show();
             return false;
         }
