@@ -11,4 +11,5 @@ public interface PostService {
     boolean removePost(Long postId);
     Post modifyPost(Long postId, Post post);
     Post getPost(Long postId);
+    Post getPostByUser(Long userid);
 }

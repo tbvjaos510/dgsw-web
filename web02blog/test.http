@@ -21,11 +21,11 @@ Content-Type: application/json
 
 {
   "account": "test1234",
-  "password" : "1234",
-  "name" : "테스트",
-  "email" : "test@naver.com",
-  "phone" : "01012345678",
-  "profilePath" : "testProfile"
+  "password": "1234",
+  "name": "aaa",
+  "email": "test@naver.com",
+  "phone": "01012345678",
+  "profilePath": "testProfile"
 }
 
 ###
@@ -40,11 +40,11 @@ Content-Type: application/json
 
 {
   "account": "test1234",
-  "password" : "1234",
-  "name" : "테스트22",
-  "email" : "test@naver.com",
-  "phone" : "01012345678",
-  "profilePath" : "testProfile"
+  "password": "1234",
+  "name": "테스트22",
+  "email": "test@naver.com",
+  "phone": "01012345678",
+  "profilePath": "testProfile"
 }
 
 ###

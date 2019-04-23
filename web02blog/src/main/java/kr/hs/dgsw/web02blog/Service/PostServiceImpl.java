@@ -63,4 +63,11 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(postId)
                 .orElse(null);
     }
+
+    @Override
+    public Post getPostByUser(Long userId) {
+        return postRepository
+                .findTopByUserIdOrderByIdDesc(userId)
+                .orElse(null);
+    }
 }

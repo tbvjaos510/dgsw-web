@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,7 +23,11 @@ public class Post {
     @Column(nullable = false)
     private Long userId;
 
+    @Column(columnDefinition = "TEXT")
     private String content;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    private List<Attachment> pictures;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String profilePath;
