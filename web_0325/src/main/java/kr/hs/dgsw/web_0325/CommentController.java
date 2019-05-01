@@ -20,6 +20,7 @@ public class CommentController {
     public Comment add(@RequestBody Comment comment) {
         return this.service.add(comment);
     }
+
     @GetMapping("/view/{id}")
     public Comment view(@PathVariable Long id) {
         return this.service.view(id);

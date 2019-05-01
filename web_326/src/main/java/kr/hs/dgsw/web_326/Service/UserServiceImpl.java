@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User modifyUser(Long userId, User user) {
         return this.userRepository.findById(userId)
-                .map(u-> {
+                .map(u -> {
                     u.setUsername(user.getUsername() != null ? user.getUsername() : u.getUsername());
                     u.setEmail(user.getEmail() != null ? user.getEmail() : u.getEmail());
                     return this.userRepository.save(u);
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean removeUser(Long userId){
+    public boolean removeUser(Long userId) {
         try {
             this.userRepository.deleteById(userId);
             return true;
@@ -57,8 +57,7 @@ public class UserServiceImpl implements UserService {
         return this.userRepository.findById(userId)
                 .map(u -> {
                     String pastPath = u.getStoredPath();
-                    if (pastPath != null)
-                    {
+                    if (pastPath != null) {
                         File file = new File(u.getStoredPath());
 
                         file.deleteOnExit();

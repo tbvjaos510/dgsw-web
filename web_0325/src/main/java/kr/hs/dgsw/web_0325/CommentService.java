@@ -31,7 +31,7 @@ public class CommentService {
 
     public Comment update(Long id, Comment comment) {
         return this.commentRepository.findById(id)
-                .map(c-> {
+                .map(c -> {
                     c.setComment(Optional.ofNullable(comment.getComment()).orElse(c.getComment()));
                     c.setUserId(Optional.ofNullable(comment.getUserId()).orElse(c.getUserId()));
                     return this.commentRepository.save(comment);

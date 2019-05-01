@@ -10,6 +10,7 @@ public class User {
         this.name = name;
         this.email = email;
     }
+
     public int getId() {
         return id;
     }
@@ -17,7 +18,6 @@ public class User {
     public void setId(int id) {
         this.id = id;
     }
-
 
 
     public String getName() {

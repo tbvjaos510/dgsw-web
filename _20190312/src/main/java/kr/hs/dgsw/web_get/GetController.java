@@ -22,8 +22,8 @@ public class GetController {
             value = {"/greeting1/{say}/{to}",
                     "/greeting1/{say}",
                     "/greeting1//{to}",
-            "/greeting1"})
-    public String sayHello1(@PathVariable Optional<String > say, @PathVariable Optional<String> to) {
+                    "/greeting1"})
+    public String sayHello1(@PathVariable Optional<String> say, @PathVariable Optional<String> to) {
         String tmp = say.isPresent() ? to.get() : "NONAME";
         String tmp2 = to.isPresent() ? to.get() : "NONAME";
         return tmp + " " + tmp2;

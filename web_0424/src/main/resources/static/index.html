@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculator</title>
+    <script
+            src="https://code.jquery.com/jquery-3.4.0.min.js"
+            integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+<input type="text" id="num-1">
+<input type="text" id="num-2">
+<br/>
+<button onclick="calculate('plus')">+</button>
+<button onclick="calculate('minus')">-</button>
+<button onclick="calculate('multiply')">*</button>
+<button onclick="calculate('divide')">/</button>
+
+<span id="result"></span>
+<script>
+    async function calculate(operator) {
+        const num1 = $("#num-1").val();
+        const num2 = $("#num-2").val();
+
+        const result = await $.get("/calculate?oper=" + operator + "&num1=" + num1 + "&num2=" + num2);
+        $("#result").text(result)
+    }
+</script>
+</body>
+</html>

@@ -48,3 +48,25 @@ Content-Type: application/json
 }
 
 ###
+
+POST http://localhost:8080/post/add
+Accept: application/json
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "content": "ddafsdf",
+  "title": "ttttlelelel"
+}
+
+###
+
+GET http://localhost:8080/post/get/1
+Content-Type: application/json
+
+###
+
+GET http://localhost:8080/post/list
+Content-Type: application/json
+
+###

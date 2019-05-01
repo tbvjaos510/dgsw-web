@@ -17,6 +17,7 @@ public class UserServiceImpl implements UserService {
         this.userLIst.add(new User(2, "user2", "user222@dgsw"));
         this.userLIst.add(new User(3, "user3", "user333@dgsw"));
     }
+
     @Override
     public List<User> list() {
         return this.userLIst;

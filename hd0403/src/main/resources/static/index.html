@@ -44,7 +44,7 @@
     <button onclick="remove()">삭제</button>
 </div>
 <script>
-    const userKeys = ["id","password", "email", "username"];
+    const userKeys = ["id", "password", "email", "username"];
     let userStatus = 0;
     const defaultURL = "http://localhost:8080";
 
@@ -52,10 +52,12 @@
         $("[id^=show-]").show();
         $("[id^=input-]").hide();
     }
+
     function hideResult() {
         $("[id^=show-]").hide();
         $("[id^=input-]").show();
     }
+
     function getInputData() {
         const result = {};
         userKeys.forEach((key) => {
@@ -63,11 +65,12 @@
         })
         return result;
     }
+
     function login() {
         $.ajax({
             type: "POST",
             url: defaultURL + "/login",
-            contentType:"application/json;",
+            contentType: "application/json;",
             responseType: "application/json;",
             data: JSON.stringify(getInputData()),
             success: (data) => {
@@ -83,11 +86,12 @@
             }
         })
     }
+
     function register() {
         $.ajax({
             type: "POST",
             url: defaultURL + "/register",
-            contentType:"application/json;",
+            contentType: "application/json;",
             responseType: "application/json;",
             data: JSON.stringify(getInputData()),
             success: (data) => {
@@ -100,12 +104,13 @@
             }
         })
     }
+
     function update() {
         const userData = getInputData();
         $.ajax({
             type: "PUT",
             url: defaultURL + "/update/" + userData.id,
-            contentType:"application/json;",
+            contentType: "application/json;",
             responseType: "application/json;",
             data: JSON.stringify(userData),
             success: (data) => {
@@ -122,6 +127,7 @@
             }
         })
     }
+
     function remove() {
         const userId = $("#show-id").text();
         $.ajax({
@@ -137,6 +143,7 @@
             }
         })
     }
+
     function showRegister() {
         if (userStatus === 2)
             return register();
@@ -147,6 +154,7 @@
         $("#change-btns").hide();
         $("#login-btns").show();
     }
+
     function showLogin() {
         if (userStatus === 1) {
             return login();
@@ -159,6 +167,7 @@
         $("#login-btns").show();
 
     }
+
     function showChange() {
         if (userStatus === 4) {
             return update();
@@ -172,7 +181,7 @@
         $("#show-id").show();
     }
 
-    function showStatus(){
+    function showStatus() {
         userStatus = 3;
         $("#login-btns").hide();
         $("#register-form").show();
@@ -180,6 +189,7 @@
         $("#change-btns").show();
         showResult();
     }
+
     showLogin();
 </script>
 </body>

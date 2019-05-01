@@ -30,10 +30,10 @@ public class CommentServiceImpl implements CommentService {
 
     @PostConstruct
     private void init() {
-        User u = this.userRepository.save(new User("aaa", "aaa@dgsw","1234" , "E:\\Project\\Visual Studio 2017\\dgsw-web\\web_326\\upload\\img1.jpg", "img1.jpg"));
+        User u = this.userRepository.save(new User("aaa", "aaa@dgsw", "1234", "E:\\Project\\Visual Studio 2017\\dgsw-web\\web_326\\upload\\img1.jpg", "img1.jpg"));
         this.commentRepository.save(new Comment(u.getId(), "hi there 111", "E:\\Project\\Visual Studio 2017\\dgsw-web\\web_326\\upload\\img2.jpg", "img2.jpg"));
-        this.commentRepository.save(new Comment(u.getId(), "hi there 222","E:\\Project\\Visual Studio 2017\\dgsw-web\\web_326\\upload\\img2.jpg", "img2.jpg"));
-        this.commentRepository.save(new Comment(u.getId(), "hi there 333","E:\\Project\\Visual Studio 2017\\dgsw-web\\web_326\\upload\\img2.jpg", "img2.jpg"));
+        this.commentRepository.save(new Comment(u.getId(), "hi there 222", "E:\\Project\\Visual Studio 2017\\dgsw-web\\web_326\\upload\\img2.jpg", "img2.jpg"));
+        this.commentRepository.save(new Comment(u.getId(), "hi there 333", "E:\\Project\\Visual Studio 2017\\dgsw-web\\web_326\\upload\\img2.jpg", "img2.jpg"));
     }
 
     @Override
@@ -50,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public CommentUsernameProtocol addComment(Comment comment) {
-        Comment result =  commentRepository.save(comment);
+        Comment result = commentRepository.save(comment);
         return this.userRepository.findById(result.getUserId())
                 .map(c -> new CommentUsernameProtocol(comment, c.getUsername()))
                 .orElse(null);

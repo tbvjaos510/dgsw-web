@@ -9,5 +9,7 @@ import java.util.Optional;
 public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByUserId(Long userId);
 
+    List<Post> findAllByOrderByIdDesc();
+
     Optional<Post> findTopByUserIdOrderByIdDesc(Long userId);
 }

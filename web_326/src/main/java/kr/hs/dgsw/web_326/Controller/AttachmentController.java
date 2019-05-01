@@ -50,30 +50,30 @@ public class AttachmentController {
     }
 
     @GetMapping("/userAttachment/{id}")
-    public void downloadUser(@PathVariable Long id ,HttpServletRequest rq, HttpServletResponse resp) {
+    public void downloadUser(@PathVariable Long id, HttpServletRequest rq, HttpServletResponse resp) {
 
         User user = userService.getUser(id);
         if (user == null) return;
 
-            String filePath = user.getStoredPath();
-            this.download(filePath, rq, resp);
+        String filePath = user.getStoredPath();
+        this.download(filePath, rq, resp);
     }
 
     @GetMapping("/commentAttachment/{id}")
-    public void downloadComment(@PathVariable Long id ,HttpServletRequest rq, HttpServletResponse resp) {
+    public void downloadComment(@PathVariable Long id, HttpServletRequest rq, HttpServletResponse resp) {
 
         Comment comment = commentService.getComment(id);
         if (comment == null) return;
 
         String filePath = comment.getStoredPath();
         System.out.println(filePath);
-            this.download(filePath, rq, resp);
+        this.download(filePath, rq, resp);
     }
 
     private void download(String filePath, HttpServletRequest rq, HttpServletResponse resp) {
         if (filePath == null) return;
         try {
-                File file = new File(filePath);
+            File file = new File(filePath);
             if (file.exists() == false) return;
 
             String mimeType = URLConnection.guessContentTypeFromName(file.getName());
@@ -81,7 +81,7 @@ public class AttachmentController {
 
             resp.setContentType(mimeType);
             resp.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
-            resp.setContentLength((int)file.length());
+            resp.setContentLength((int) file.length());
 
             InputStream is = new BufferedInputStream(new FileInputStream(file));
             FileCopyUtils.copy(is, resp.getOutputStream());

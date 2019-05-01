@@ -1,6 +1,7 @@
 package kr.hs.dgsw.web02blog.Service;
 
 import kr.hs.dgsw.web02blog.Domain.Post;
+import kr.hs.dgsw.web02blog.Protocol.PostUserProtocol;
 import kr.hs.dgsw.web02blog.Repository.PostRepository;
 import kr.hs.dgsw.web02blog.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,13 @@ public class PostServiceImpl implements PostService {
     private UserRepository userRepository;
 
     @Override
-    public Post addPost(Post post) {
-        return postRepository.save(post);
+    public PostUserProtocol addPost(Post post) {
+        Post p = postRepository.save(post);
+        return this.userRepository.findById(p.getUserId())
+                .map(user -> {
+                    return new PostUserProtocol(user, p);
+                })
+                .orElse(null);
     }
 
     @Override
@@ -34,7 +40,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> listPost() {
-        return postRepository.findAll();
+        return postRepository.findAllByOrderByIdDesc();
     }
 
     @Override
@@ -52,6 +58,7 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.findById(postId)
                 .map(p -> {
+                    p.setTitle(post.getTitle() != null ? post.getTitle() : p.getTitle());
                     p.setContent(post.getContent() != null ? post.getContent() : p.getContent());
                     return postRepository.save(p);
                 })
@@ -59,15 +66,23 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post getPost(Long postId) {
+    public PostUserProtocol getPost(Long postId) {
         return postRepository.findById(postId)
+                .map(post -> this.userRepository.findById(post.getUserId())
+                        .map(user -> new PostUserProtocol(user, post))
+                        .orElse(null))
                 .orElse(null);
     }
 
     @Override
-    public Post getPostByUser(Long userId) {
+    public PostUserProtocol getPostByUser(Long userId) {
         return postRepository
                 .findTopByUserIdOrderByIdDesc(userId)
+                .map(post -> {
+                    return this.userRepository.findById(post.getUserId())
+                            .map(user -> new PostUserProtocol(user, post))
+                            .orElse(null);
+                })
                 .orElse(null);
     }
 }

@@ -1,6 +1,7 @@
 package kr.hs.dgsw.web02blog.Controller;
 
 import kr.hs.dgsw.web02blog.Domain.Post;
+import kr.hs.dgsw.web02blog.Protocol.PostUserProtocol;
 import kr.hs.dgsw.web02blog.Protocol.ResponseFormat;
 import kr.hs.dgsw.web02blog.Protocol.ResponseType;
 import kr.hs.dgsw.web02blog.Service.PostService;
@@ -43,6 +44,20 @@ public class PostController {
         }
         return rf;
     }
+
+    @GetMapping("/post/user/{userId}")
+    public ResponseFormat getTopPost(@PathVariable Long userId) {
+        ResponseFormat rf = new ResponseFormat(ResponseType.FAIL, null);
+        Post post = postService.getPostByUser(userId);
+        if (post != null) {
+            rf = new ResponseFormat(
+                    ResponseType.POST_GET,
+                    post,
+                    post.getId()
+            );
+        }
+        return rf;
+    }
 //
 //    @GetMapping("/post/list/{userId}")
 //    public List<Post> listPostByUserId(@PathVariable Long userId) {
@@ -52,7 +67,7 @@ public class PostController {
     @PostMapping("/post/add")
     public ResponseFormat addPost(@RequestBody Post post) {
         ResponseFormat rf = new ResponseFormat(ResponseType.FAIL, null);
-        Post p = postService.addPost(post);
+        PostUserProtocol p = postService.addPost(post);
         if (p != null) {
             rf = new ResponseFormat(
                     ResponseType.POST_ADD,

@@ -10,6 +10,7 @@ public class GetController {
 
     @Autowired
     CalculatorService cs;
+
     @GetMapping("/calculate")
     public String Calculate(@RequestParam String num1, @RequestParam String num2, @RequestParam String oper) {
         return cs.calculate(num1, num2, oper);

@@ -23,14 +23,17 @@ public class Post {
     @Column(nullable = false)
     private Long userId;
 
+    @Column(nullable = false)
+    private String title;
+
     @Column(columnDefinition = "TEXT")
     private String content;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Attachment> pictures;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private String profilePath;
+//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+//    private String profilePath;
 
     @CreationTimestamp
     @Column(updatable = false, nullable = false)
